@@ -5,7 +5,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const CustomDataDisplay = ({ data, name, url }) => {
+const CustomDataDisplay = ({ data, url }) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [dataArray, setDataArray] = useState([]);
@@ -37,20 +37,22 @@ const CustomDataDisplay = ({ data, name, url }) => {
     try {
       const selectedData = selectedRows.map((index) => {
         const item = dataArray[index];
-        return {
-          id: removeQuotes(item.id),
-          message: item.message ? removeQuotes(item.message) : null,
-          created_time: removeQuotes(item.created_time),
-        };
+        // return {
+        //   id: removeQuotes(item.id),
+        //   message: item.message ? removeQuotes(item.message) : null,
+        //   created_time: removeQuotes(item.created_time),
+        // };
+        return item;
       });
 
       const numberOfJsonToCombine = selectedData.length;
 
       const combinedData = selectedData.slice(0, numberOfJsonToCombine);
+      // console.log('name:', name)
+      console.log("url:", url);
 
       const response = await axios.post("http://localhost:3001/v1/save", {
         data: combinedData,
-        name: name,
         url: url,
       });
 
@@ -100,12 +102,11 @@ const CustomDataDisplay = ({ data, name, url }) => {
       if (!dataArray) {
         throw new Error("DataArray is undefined or null");
       }
-  
+
       const fieldNames = Object.keys(dataArray[0]);
-  
+
       const headerRow = (
         <tr>
-          {/* Di chuyển cột checkbox sang bên phải */}
           <th>STT</th>
           {fieldNames.map((fieldName) => (
             <th key={fieldName}>{fieldName}</th>
@@ -119,10 +120,9 @@ const CustomDataDisplay = ({ data, name, url }) => {
           </th>
         </tr>
       );
-  
+
       const dataRows = dataArray.map((item, index) => (
         <tr key={index}>
-          {/* Di chuyển ô checkbox sang bên phải */}
           <td>{index + 1}</td>
           {fieldNames.map((fieldName) => (
             <td key={fieldName}>
@@ -140,7 +140,7 @@ const CustomDataDisplay = ({ data, name, url }) => {
           </td>
         </tr>
       ));
-  
+
       return (
         <div>
           <button onClick={handleSave} id="saveButton">
@@ -160,7 +160,7 @@ const CustomDataDisplay = ({ data, name, url }) => {
       );
     }
   };
-  
+
   return (
     <div>
       <h2>Custom Data:</h2>

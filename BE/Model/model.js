@@ -1,18 +1,33 @@
   const fs = require('fs');
   const path = require('path');
+const CONSTANT = require('../Config/constant');
 
-  function saveData(name, content, value) {
+  function saveData(name, value) {
     const currentDate = new Date();
     const day = currentDate.getDate().toString().padStart(2, '0');
     const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
     const year = currentDate.getFullYear().toString();
 
-    const sanitizeFileName = (str) => str.replace(/[\\/:"*?<>|]/g, '_');
+    const sanitizeFileName = (str) => {
+      // Kiểm tra xem chuỗi có tồn tại không
+      if (str === null || str === undefined) {
+        return ''; // hoặc giá trị mặc định khác tùy vào yêu cầu của bạn
+      }
+    
+      // Sử dụng biểu thức chính quy để thay thế các kí tự đặc biệt bằng dấu gạch dưới
+      const sanitizedStr = str.replace(/[\\/:"*?<>|]/g, '_');
+      
+      // Kiểm tra nếu tên đã được xử lý có kí tự đặt biệt hay không
+      const containsSpecialChars = sanitizedStr !== str;
+    
+      // Nếu không có kí tự đặt biệt, giữ nguyên tên, ngược lại trả về tên đã xử lý
+      return containsSpecialChars ? sanitizedStr : str;
+    };
 
     let counter = 1;
-    let sanitizedContent = sanitizeFileName(content);
-    let fileName = `${sanitizeFileName(name)}-${sanitizedContent}-${day}${month}${year}.json`;
-    const dataFolderPath = path.join(__dirname, 'data');
+    // let sanitizedContent = sanitizeFileName(content);
+    let fileName = `${sanitizeFileName(name)}-${day}${month}${year}.json`;
+    const dataFolderPath = path.join(__dirname, CONSTANT.DATA_PATH);
     let filePath = path.join(dataFolderPath, fileName);
 
     if (!fs.existsSync(dataFolderPath)) {
@@ -20,7 +35,7 @@
     }
 
     while (fs.existsSync(filePath)) {
-      fileName = `${sanitizeFileName(name)}-${sanitizedContent}-${day}${month}${year}-${counter}.json`;
+      fileName = `${sanitizeFileName(name)}-${day}${month}${year}-${counter}.json`;
       filePath = path.join(dataFolderPath, fileName);
       counter++;
     }

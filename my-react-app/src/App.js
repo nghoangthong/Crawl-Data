@@ -10,24 +10,24 @@ function App() {
   const [selectedToken, setSelectedToken] = useState("");
   const [selectedUser, setSelectedUser] = useState(""); // Thêm state mới
 
-  useEffect(() => {
-    const fetchTokenList = async () => {
-      try {
-        const response = await fetch("http://localhost:3001/v1/token");
-        const data = await response.json();
-        const tokens = Object.entries(data);
-        setTokenList(tokens);
-        if (tokens.length > 0) {
-          setSelectedToken(tokens[0][1]);
-          setSelectedUser(tokens[0][0]); // Set giá trị mặc định khi có dữ liệu
-        }
-      } catch (error) {
-        console.error("Error fetching token list:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchTokenList = async () => {
+  //     try {
+  //       const response = await fetch("http://localhost:3001/v1/token");
+  //       const data = await response.json();
+  //       const tokens = Object.entries(data);
+  //       setTokenList(tokens);
+  //       if (tokens.length > 0) {
+  //         setSelectedToken(tokens[0][1]);
+  //         setSelectedUser(tokens[0][0]); 
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching token list:", error);
+  //     }
+  //   };
 
-    fetchTokenList();
-  }, []);
+  //   fetchTokenList();
+  // }, []);
 
   const handleTokenChange = (e) => {
     const selectedUser = tokenList.find(
@@ -54,12 +54,13 @@ function App() {
       console.error("Error fetching comment:", error);
     }
   };
+  
 
 
   return (
     <div className="App">
       <h1>Data Facebook</h1>
-      <label htmlFor="tokenDropdown">Choose Access Token:</label>
+      {/* <label htmlFor="tokenDropdown">Choose Access Token:</label>
       <select
         id="tokenDropdown"
         onChange={handleTokenChange}
@@ -70,7 +71,7 @@ function App() {
             {user}
           </option>
         ))}
-      </select>
+      </select> */}
 
       <input
         type="text"
@@ -84,11 +85,7 @@ function App() {
         <div>
           
           <CustomDataDisplay data={commentData} name={selectedUser} url={commentId} />
-          {/* <SaveDataButton
-            data={commentData}
-            name={selectedUser}
-            url={commentId}
-          /> */}
+
         </div>
       )}
     </div>

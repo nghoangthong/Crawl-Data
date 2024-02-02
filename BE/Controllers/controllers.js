@@ -1,19 +1,28 @@
-const model = require('./model');
-const CONSTANTS = require('./constant');
+const model = require('../Model/model');
+const CONSTANTS = require('../Config/constant');
 const axios = require('axios');
+const BOT = require("../BOT/index");
+const Until = require("../BOT/until");
 
 
 
 async function getComments(req, res,) {
     try {
       const dataFE = req.query.commentId;
-      const accessToken = req.query.token;
-      console.log('dataFE', dataFE)
+      console.log(dataFE)
+
+      if (dataFE.includes("facebook.com/")){
+
+        let resData = await BOT.runScraper(dataFE);
+        return res.json(resData)
+         
+      }
       const url = CONSTANTS.URL_FACEBOOK + dataFE;
-      console.log('url:', url)
+      // console.log('url:', url)
+      // console.log('CONSTANTS.ACCESS_TOKEN:', CONSTANTS.ACCESS_TOKEN)
       const response = await axios.get(url, {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${CONSTANTS.ACCESS_TOKEN}`,
         },
       });
     return res.json(response.data)
@@ -35,17 +44,17 @@ async function getComments(req, res,) {
 
   async function saveData(req, res){
     try {
-      let value = req.body.data;
-      let name = req.body.name;
-      let url = req.body.url;
-      model.saveData(name, url, value);
+      let dataToSave = req.body.data;
+      let filename = req.body.url;
+      let processedFileName = Until.extractAllNumbersFromLink(filename);
+      model.saveData(processedFileName, dataToSave);
       return res.status(200).json('success');
     } catch (error) {
       console.error('Error data:', error);
       throw error;  
     }
-
   }
+  
 
   module.exports = { getComments, accessToken, saveData
   }

@@ -79,7 +79,6 @@ input[type="checkbox"]:checked::before {
   transform: translate(-50%, -50%);
 }
 
-/* CustomDataDisplay.css */
 
 /* Style cho nút Save */
 #saveButton {
