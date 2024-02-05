@@ -48,8 +48,6 @@ const CustomDataDisplay = ({ data, url }) => {
       const numberOfJsonToCombine = selectedData.length;
 
       const combinedData = selectedData.slice(0, numberOfJsonToCombine);
-      // console.log('name:', name)
-      console.log("url:", url);
 
       const response = await axios.post("http://localhost:3001/v1/save", {
         data: combinedData,
@@ -91,11 +89,11 @@ const CustomDataDisplay = ({ data, url }) => {
         newdataArray = [data];
       }
 
-      setDataArray(newdataArray); // Set data array once when component mounts
+      setDataArray(newdataArray);
     } catch (error) {
       console.error("Error rendering table:", error);
     }
-  }, [data]); // Run this effect only when 'data' changes
+  }, [data]);
 
   const renderTable = () => {
     try {
@@ -126,9 +124,17 @@ const CustomDataDisplay = ({ data, url }) => {
           <td>{index + 1}</td>
           {fieldNames.map((fieldName) => (
             <td key={fieldName}>
-              {fieldName === "created_time"
-                ? format(new Date(item[fieldName]), "yyyy-MM-dd HH:mm:ss")
-                : removeQuotes(JSON.stringify(item[fieldName]))}
+              {fieldName === "created_time" ? (
+                format(new Date(item[fieldName]), "yyyy-MM-dd HH:mm:ss")
+              ) : fieldName === "Avatar" ? (
+                <img
+                  src={item[fieldName]}
+                  alt=""
+                  style={{ maxWidth: "100px" }}
+                />
+              ) : (
+                removeQuotes(JSON.stringify(item[fieldName]))
+              )}
             </td>
           ))}
           <td>

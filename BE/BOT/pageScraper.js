@@ -2,8 +2,8 @@ const CONSTANTS = require("../Config/constant");
 const fs = require("fs");
 const browserObject = require("./browser");
 const scraperController = require("./pageController");
-const model = require("../Model/model")
-const Until = require('./until')
+const model = require("../Model/model");
+// const Until = require('./until');
 
 async function scrollDownMultipleTimes(page, scrollCount, scrollAmount) {
   try {
@@ -82,15 +82,18 @@ async function findAndLick(page) {
 async function findText(page) {
   try {
     const result = await page.evaluate(() => {
-      const parentElements = document.querySelectorAll('div[class="xv55zj0 x1vvkbs x1rg5ohu xxymvpz"]');
+      const parentElements = document.querySelectorAll("div.x1n2onr6.x1swvt13.x1iorvi4");
       const data = [];
 
       parentElements.forEach((parentElement, index) => {
         try {
-          const textA = parentElement.querySelector('span.xt0psk2').textContent.trim();
-          const textB = parentElement.querySelector('.x1lliihq.xjkvuk6.x1iorvi4').textContent.trim();
+          const textA = parentElement.querySelector('svg.x3ajldb image').getAttribute('xlink:href');
+          const textB = parentElement.querySelector('span.xt0psk2 span.x3nfvp2').textContent.trim();
+          const textC = parentElement.querySelector('div.x1lliihq.xjkvuk6.x1iorvi4').textContent.trim();
+          console.log("textA:", textA)
 
-          data.push({ Name: textA, Comments: textB });
+
+          data.push({ Avatar: textA, Name: textB, Comment: textC });
         } catch (error) {
           console.error(`Lỗi khi xử lý thẻ con thứ ${index + 1}:`, error);
         }
@@ -109,11 +112,11 @@ async function findText(page) {
 
 
 async function login(page) {
-  await page.type("#email", "61555877131908");
+  await page.type("#email", CONSTANTS.USERNAME);
 
   await page.waitForTimeout(2000);
 
-  await page.type("#pass", "vietasoft");
+  await page.type("#pass", CONSTANTS.PASS);
 
   await page.waitForTimeout(2000);
 
@@ -153,14 +156,5 @@ async function scraperFunction(browser, url) {
   return vauleText
 }
 
-// async function runScraper() {
-//   try {
-//     let browserInstance = await browserObject.startBrowser();
-
-//     await scraperController(browserInstance);
-//   } catch (error) {
-//     console.error("Error running the scraper:", error);
-//   }
-// }
 
 module.exports = { scraperFunction };

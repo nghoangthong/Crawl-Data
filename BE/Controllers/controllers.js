@@ -2,7 +2,7 @@ const model = require('../Model/model');
 const CONSTANTS = require('../Config/constant');
 const axios = require('axios');
 const BOT = require("../BOT/index");
-const Until = require("../BOT/until");
+const Until = require("../BOT/Until");
 
 
 
@@ -15,11 +15,10 @@ async function getComments(req, res,) {
 
         let resData = await BOT.runScraper(dataFE);
         return res.json(resData)
-         
       }
-      const url = CONSTANTS.URL_FACEBOOK + dataFE;
-      // console.log('url:', url)
-      // console.log('CONSTANTS.ACCESS_TOKEN:', CONSTANTS.ACCESS_TOKEN)
+      const url = CONSTANTS.URL_FACEBOOK_API + dataFE;
+      console.log('url:', url)
+      console.log('CONSTANTS.ACCESS_TOKEN:', CONSTANTS.ACCESS_TOKEN)
       const response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${CONSTANTS.ACCESS_TOKEN}`,

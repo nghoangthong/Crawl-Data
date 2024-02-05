@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 // import SaveDataButton from "./components/SaveDataButton";
 import CustomDataDisplay from "./components/CustomDisplay";
@@ -6,7 +6,7 @@ import CustomDataDisplay from "./components/CustomDisplay";
 function App() {
   const [commentId, setCommentId] = useState("");
   const [commentData, setCommentData] = useState(null);
-  const [tokenList, setTokenList] = useState([]);
+  const [tokenList] = useState([]);
   const [selectedToken, setSelectedToken] = useState("");
   const [selectedUser, setSelectedUser] = useState(""); // Thêm state mới
 
