@@ -1,0 +1,62 @@
+.confirm-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#formCFD {
+  width: 100%; /* Đặt chiều rộng của form */
+}
+
+#main-table {
+  margin-bottom: 10px; /* Khoảng cách dưới của main-table */
+  width: 100%;
+}
+
+#detail-table {
+  margin-top: 10px; /* Khoảng cách trên của detail-table */
+  margin: auto;
+  width: 100%;
+}
+
+.confirm-form-title {
+  text-align: center; /* Căn giữa tiêu đề */
+}
+
+.close-button {
+  position: absolute;
+  top: 10px; /* Khoảng cách từ đỉnh phía trên */
+  right: 10px; /* Khoảng cách từ cạnh phải */
+}
+
+
+.add-row-button {
+  margin-top: 10px; /* Khoảng cách trên của nút add-row-button */
+}
+
+.confirm-form-button {
+  margin-top: 10px; /* Khoảng cách trên của nút submit */
+}
+
+.confirm-form-label {
+  display: block;
+  margin-bottom: 10px; /* Khoảng cách dưới của nhãn */
+  width: 100%;
+  /* height: 90%; */
+}
+
+.confirm-form-input,
+.confirm-form-textarea,
+.confirm-form-input,
+.confirm-form-input select {
+  max-width: 100%; /* Đặt chiều rộng tối đa cho input và select */
+  width: 100%; /* Trải rộng input và select */
+}
+.confirm-form-input{
+  max-width: 80%; 
+  width: auto;
+
+}
+.confirm-form-textarea{
+  height: 100px;
+}

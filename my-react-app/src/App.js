@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 // import SaveDataButton from "./components/SaveDataButton";
 import CustomDataDisplay from "./components/CustomDisplay";
+import {ToastContainer } from "react-toastify";
 
 function App() {
   const [commentId, setCommentId] = useState("");
@@ -59,6 +60,7 @@ function App() {
 
   return (
     <div className="App">
+      
       <h1>Data Facebook</h1>
       {/* <label htmlFor="tokenDropdown">Choose Access Token:</label>
       <select
@@ -84,10 +86,11 @@ function App() {
       {commentData && ( 
         <div>
           
-          <CustomDataDisplay data={commentData} name={selectedUser} url={commentId} />
+          <CustomDataDisplay data={commentData}  name={commentId} />
 
         </div>
       )}
+            <ToastContainer />
     </div>
   );
 }

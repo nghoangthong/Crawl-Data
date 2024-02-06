@@ -1,16 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
-import "./CustomDataDisplay.css";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ConfirmFormData from './ConfirmFormData';
+import Modal from 'react-modal';
+import "./CustomDataDisplay.css";
+import SaveDataButton from "./SaveDataButton"
 
-const CustomDataDisplay = ({ data, url }) => {
+const CustomDataDisplay = ({ data, name }) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [dataArray, setDataArray] = useState([]);
+  const [selectedRowData, setSelectedRowData] = useState(null);
+  const [isConfirmFormVisible, setIsConfirmFormVisible] = useState(false);
+
+
 
   const removeQuotes = (str) => str.replace(/"/g, "");
+
+  const confirmData = (rowData) => {
+    setSelectedRowData(rowData);
+    setIsConfirmFormVisible(true);
+  };
+
+  const handleConfirmFormClose = () => {
+    setIsConfirmFormVisible(false);
+    setSelectedRowData(null);
+  };
 
   const handleRowSelect = (index) => {
     setSelectedRows((prevSelectedRows) => {
@@ -18,7 +35,7 @@ const CustomDataDisplay = ({ data, url }) => {
         return prevSelectedRows.filter(
           (selectedIndex) => selectedIndex !== index
         );
-      } else {
+      } else {  
         return [...prevSelectedRows, index];
       }
     });
@@ -48,17 +65,12 @@ const CustomDataDisplay = ({ data, url }) => {
       const numberOfJsonToCombine = selectedData.length;
 
       const combinedData = selectedData.slice(0, numberOfJsonToCombine);
-
-      const response = await axios.post("http://localhost:3001/v1/save", {
-        data: combinedData,
-        url: url,
-      });
+      console.log('name:', name)
+      const response = await SaveDataButton(name, combinedData);
 
       console.log("Data saved successfully:", response.data);
-      toast.success("Data saved successfully");
     } catch (error) {
       console.error("Error saving data:", error);
-      toast.error("Error saving data");
     }
   };
 
@@ -116,6 +128,7 @@ const CustomDataDisplay = ({ data, url }) => {
               checked={selectAll}
             />
           </th>
+          
         </tr>
       );
 
@@ -144,6 +157,9 @@ const CustomDataDisplay = ({ data, url }) => {
               checked={selectedRows.includes(index)}
             />
           </td>
+              <td>
+      <button onClick={() => confirmData(item)}>Confirm</button>
+    </td>
         </tr>
       ));
 
@@ -153,7 +169,7 @@ const CustomDataDisplay = ({ data, url }) => {
             Save
           </button>
           <ToastContainer />
-          <table>
+          <table className="tableCD">
             <thead>{headerRow}</thead>
             <tbody>{dataRows}</tbody>
           </table>
@@ -170,6 +186,15 @@ const CustomDataDisplay = ({ data, url }) => {
   return (
     <div>
       <h2>Custom Data:</h2>
+      <Modal
+        isOpen={isConfirmFormVisible}
+        onRequestClose={handleConfirmFormClose}
+        contentLabel="Confirm Form Modal"
+      >
+        {selectedRowData && (
+          <ConfirmFormData rowData={selectedRowData} onClose={handleConfirmFormClose} />
+        )}
+      </Modal>
       {renderTable()}
     </div>
   );

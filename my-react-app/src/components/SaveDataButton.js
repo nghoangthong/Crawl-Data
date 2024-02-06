@@ -1,22 +1,25 @@
-import React from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function SaveDataButton({ data, name, url }) {
-  const handleSaveData = async () => {
-    try {
-      const response = await axios.post("http://localhost:3001/v1/save", {
-        data: data,
-        name: name,
-        url: url,
-      });
+async function SaveDataButton(name, data) {
+  try {
+    const response = await axios.post("http://localhost:3001/v1/save", {
+      name: name,
+      data: data
+    });
 
+    if (response && response.data) {
       console.log("Data saved successfully:", response.data);
-    } catch (error) {
-      console.error("Error saving data:", error);
+      toast.success("Data saved successfully"); 
+    } else {
+      console.log("Empty or undefined response data");
+      toast.error("Failed to save data"); 
     }
-  };
-
-  return <>{data && <button onClick={handleSaveData}>Save Data</button>}</>;
+  } catch (error) {
+    console.error("Error saving data:", error);
+    toast.error("Error saving data"); 
+  }
 }
 
 export default SaveDataButton;
