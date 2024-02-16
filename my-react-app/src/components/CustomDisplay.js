@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
-import axios from "axios";
 import { ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ConfirmFormData from './ConfirmFormData';
@@ -54,18 +53,12 @@ const CustomDataDisplay = ({ data, name }) => {
     try {
       const selectedData = selectedRows.map((index) => {
         const item = dataArray[index];
-        // return {
-        //   id: removeQuotes(item.id),
-        //   message: item.message ? removeQuotes(item.message) : null,
-        //   created_time: removeQuotes(item.created_time),
-        // };
         return item;
       });
 
       const numberOfJsonToCombine = selectedData.length;
 
       const combinedData = selectedData.slice(0, numberOfJsonToCombine);
-      console.log('name:', name)
       const response = await SaveDataButton(name, combinedData);
 
       console.log("Data saved successfully:", response.data);

@@ -2,23 +2,20 @@ const fs = require("fs");
 const path = require("path");
 const CONSTANT = require("../Config/constant");
 
-function saveData(name, value) {
+function saveData(name, data) {
   const currentDate = new Date();
   const day = currentDate.getDate().toString().padStart(2, "0");
   const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
   const year = currentDate.getFullYear().toString();
 
-  const sanitizeFileName = (str) => {
-    if (str === null || str === undefined) {
-      return "";
-    }
-
-    const sanitizedStr = str.replace(/[\\/:"*?<>|]/g, "_");
-
-    const containsSpecialChars = sanitizedStr !== str;
-
-    return containsSpecialChars ? sanitizedStr : str;
+  const sanitizeFileName = (name) => {
+    if (!name) return "undefined";
+  
+    const sanitizedStr = name.replace(/[\\/:"*?<>|]/g, "_");
+    
+    return sanitizedStr !== name ? sanitizedStr : name;
   };
+  
 
   let counter = 1;
   let fileName = `${sanitizeFileName(name)}-${day}${month}${year}.json`;
@@ -37,7 +34,7 @@ function saveData(name, value) {
     counter++;
   }
 
-  fs.writeFileSync(filePath, JSON.stringify(value, null, 2), "utf-8");
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
 
   console.log(`Data saved to: ${filePath}`);
 }

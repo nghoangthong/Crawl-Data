@@ -4,9 +4,10 @@ import "react-toastify/dist/ReactToastify.css";
 
 async function SaveDataButton(name, data) {
   try {
+    console.log('nameádasd:', name)
     const response = await axios.post("http://localhost:3001/v1/save", {
       name: name,
-      data: data
+      data: data,
     });
 
     if (response && response.data) {

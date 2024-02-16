@@ -9,7 +9,6 @@ const Until = require("../BOT/Until");
 async function getComments(req, res,) {
     try {
       const dataFE = req.query.commentId;
-      console.log(dataFE)
 
       if (dataFE.includes("facebook.com/")){
 
@@ -17,8 +16,8 @@ async function getComments(req, res,) {
         return res.json(resData)
       }
       const url = CONSTANTS.URL_FACEBOOK_API + dataFE;
-      console.log('url:', url)
-      console.log('CONSTANTS.ACCESS_TOKEN:', CONSTANTS.ACCESS_TOKEN)
+      // console.log('url:', url)
+      // console.log('CONSTANTS.ACCESS_TOKEN:', CONSTANTS.ACCESS_TOKEN)
       const response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${CONSTANTS.ACCESS_TOKEN}`,
@@ -41,12 +40,11 @@ async function getComments(req, res,) {
     }
   }
 
-  async function saveData(req, res){
+  function saveData(req, res){
     try {
       let dataToSave = req.body.data;
-      let filename = req.body.url;
-      let processedFileName = Until.extractAllNumbersFromLink(filename);
-      model.saveData(processedFileName, dataToSave);
+      let filename = req.body.name;
+      model.saveData(filename , dataToSave);
       return res.status(200).json('success');
     } catch (error) {
       console.error('Error data:', error);

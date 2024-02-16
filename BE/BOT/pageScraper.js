@@ -90,7 +90,6 @@ async function findText(page) {
           const textA = parentElement.querySelector('svg.x3ajldb image').getAttribute('xlink:href');
           const textB = parentElement.querySelector('span.xt0psk2 span.x3nfvp2').textContent.trim();
           const textC = parentElement.querySelector('div.x1lliihq.xjkvuk6.x1iorvi4').textContent.trim();
-          console.log("textA:", textA)
 
 
           data.push({ Avatar: textA, Name: textB, Comment: textC });

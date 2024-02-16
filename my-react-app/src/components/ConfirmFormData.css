@@ -8,9 +8,8 @@
   width: 100%; /* Đặt chiều rộng của form */
 }
 
-#main-table {
-  margin-bottom: 10px; /* Khoảng cách dưới của main-table */
-  width: 100%;
+#main-info-table {
+margin: auto;
 }
 
 #detail-table {
@@ -21,9 +20,11 @@
 
 .confirm-form-title {
   text-align: center; /* Căn giữa tiêu đề */
+  position: relative;
 }
 
 .close-button {
+  z-index: 100;
   position: absolute;
   top: 10px; /* Khoảng cách từ đỉnh phía trên */
   right: 10px; /* Khoảng cách từ cạnh phải */
